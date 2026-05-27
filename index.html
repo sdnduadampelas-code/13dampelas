@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Resmi & SPMB - SDN 13 DAMPELAS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { padding-bottom: 70px; background-color: #f8f9fa; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        
+        .hero-section { background-color: #002244; color: white; padding: 120px 0; position: relative; overflow: hidden; }
+        .hero-slider { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
+        .hero-slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; }
+        .hero-section::before { content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 34, 68, 0.35); z-index: 1; }
+        .hero-content { position: relative; z-index: 2; }
+        
+        .section-title { position: relative; padding-bottom: 15px; margin-bottom: 40px; font-weight: bold; text-align: center;}
+        .section-title::after { content: ""; position: absolute; left: 50%; bottom: 0; transform: translateX(-50%); width: 60px; height: 4px; background-color: #0d6efd; border-radius: 2px; }
+
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background-color: #ffffff; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); z-index: 1030; display: flex; justify-content: space-around; padding: 10px 0; }
+        .bottom-nav a { text-align: center; color: #6c757d; text-decoration: none; font-size: 0.75rem; flex-grow: 1; cursor: pointer;}
+        .bottom-nav a i { display: block; font-size: 1.2rem; margin-bottom: 2px; }
+        .bottom-nav a.active, .bottom-nav a:hover { color: #0d6efd; }
+        @media (min-width: 768px) { .bottom-nav { display: none; } body { padding-bottom: 0; } }
+
+        .admin-panel { display: none; }
+        .is-admin .admin-panel { display: block !important; }
+        
+        .app-card { transition: transform 0.2s; border: none; }
+        .app-card:hover { transform: translateY(-5px); box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important; }
+        
+        .news-card { transition: transform 0.2s; border: none; border-radius: 1rem; overflow: hidden; cursor: pointer; }
+        .news-card:hover { transform: translateY(-5px); box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important; }
+        .news-content-preview { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+
+        .profile-card { border: none; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-radius: 1rem; position: relative; }
+        .profile-card img { width: 100%; height: auto; object-fit: cover; }
+        .btn-edit-ks { position: absolute; top: 10px; right: 10px; z-index: 10; }
+
+        #loginGembok { cursor: pointer; color: #6c757d; transition: color 0.3s; padding: 5px;}
+        #loginGembok:hover { color: #0d6efd;}
+
+        .stat-card { 
+            color: white; border-radius: 0.8rem; padding: 1.2rem 0.5rem; text-align: center; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: transform 0.3s; 
+        }
+        .stat-card:hover { transform: translateY(-5px); }
+        .stat-card i { font-size: 1.8rem; margin-bottom: 0.5rem; opacity: 0.8; } 
+        .stat-card h3 { font-weight: 800; margin-bottom: 0.2rem; font-size: 1.5rem;} 
+        .stat-card small { font-size: 0.8rem; font-weight: 500;} 
+        .stat-color-0 { background: linear-gradient(135deg, #0d6efd, #0044cc); }
+        .stat-color-1 { background-color: #198754; }
+        .stat-color-2 { background-color: #dc3545; }
+        .stat-color-3 { background-color: #ffc107; color: #212529 !important; }
+        .stat-color-4 { background-color: #0dcaf0; color: #212529 !important; }
+        .stat-color-5 { background-color: #212529; }
+        .stat-color-6 { background-color: #6c757d; }
+        .stat-color-7 { background-color: #6f42c1; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top d-none d-md-flex">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-primary" href="#"><i class="fas fa-graduation-cap me-2"></i><span id="navBrand">SDN 13 DAMPELAS</span></a>
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="#beranda">Beranda</a></li>
+                <li class="nav-item"><a class="nav-link" href="#berita">Berita</a></li>
+                <li class="nav-item"><a class="nav-link" href="#profil">Profil & Data</a></li>
+                <li class="nav-item"><a class="nav-link" href="#danabos">Dana BOS</a></li>
+                <li class="nav-item"><a class="nav-link" href="#aplikasi">Layanan</a></li>
+                <li class="nav-item"><a class="nav-link text-warning fw-bold" href="#spmb">SPMB</a></li>
+                <li class="nav-item"><a class="nav-link" href="#kontak">Buku Tamu</a></li>
+                <li class="nav-item admin-panel"><a class="nav-link text-danger fw-bold" href="#" onclick="logout()"><i class="fas fa-sign-out-alt me-1"></i>Logout Admin</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section id="beranda" class="hero-section text-center">
+        <div id="heroSlider" class="hero-slider"></div>
+        <div class="container hero-content">
+            <h1 class="display-4 fw-bold" id="heroJudul">Memuat Data...</h1>
+            <p class="lead mt-3 mb-4" id="heroSubjudul">...</p>
+            <a href="#spmb" class="btn btn-warning btn-lg fw-bold rounded-pill px-4 shadow mb-3" id="heroTombol">Pendaftaran Siswa Baru</a>
+            <div class="admin-panel mt-3">
+                <label class="btn btn-light btn-sm text-dark shadow" id="lblUploadHero"><i class="fas fa-camera me-1"></i>Ganti Gambar Background Hero
+                    <input type="file" accept="image/*" class="d-none" onchange="handleBgUpload(this)">
+                </label>
+            </div>
+        </div>
+    </section>
+
+    <section id="berita" class="py-5 bg-light">
+        <div class="container">
+            <h2 class="section-title">Berita & Pengumuman Terbaru</h2>
+            <div class="row g-4 justify-content-center" id="beritaContainer">
+                <div class="col-12 text-center text-muted"><div class="spinner-border text-primary spinner-border-sm"></div> Memuat berita...</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="profil" class="pt-5 bg-white">
+        <div class="container">
+            <h2 class="section-title">Profil & Sambutan Kepala Sekolah</h2>
+            <div class="row align-items-center mb-5">
+                <div class="col-lg-5 mb-4 mb-lg-0">
+                    <div class="card profile-card">
+                        <div class="admin-panel btn-edit-ks">
+                            <label class="btn btn-warning btn-sm shadow" id="lblUploadKs"><i class="fas fa-camera me-1"></i>Ganti Foto KS
+                                <input type="file" accept="image/*" class="d-none" onchange="handleKsUploadDirect(this)">
+                            </label>
+                        </div>
+                        <img src="https://source.unsplash.com/600x600/?portrait,teacher" id="ksFoto" class="card-img-top" alt="Kepala Sekolah">
+                        <div class="card-body text-center bg-primary text-white">
+                            <h5 class="card-title fw-bold mb-0" id="ksNama">Memuat Nama...</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-7">
+                    <h4 class="fw-bold text-primary mb-3">Sambutan Kepala Sekolah</h4>
+                    <p class="text-muted text-justify lead" style="line-height: 1.8;" id="ksSambutan">Memuat teks sambutan...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="pb-5 bg-white">
+        <div class="container">
+            <div class="row g-3 justify-content-center" id="statContainer">
+                <div class="col-12 text-center text-muted"><div class="spinner-border text-primary spinner-border-sm"></div> Memuat data sekolah...</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="danabos" class="py-5 bg-light border-top border-bottom">
+        <div class="container">
+            <h2 class="section-title">Transparansi Dana BOS Sekolah</h2>
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="card shadow-sm border-0 rounded-3">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-striped mb-0">
+                                <thead class="bg-primary text-white">
+                                    <tr><th class="text-center" width="10%">No</th><th>Komponen Pembiayaan</th><th class="text-end" width="35%">Alokasi Dana (Rp)</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td class="text-center">1</td><td>Standar Kompetensi Lulusan</td><td class="text-end fw-semibold" id="pub_Bos_SKL">Rp 0</td></tr>
+                                    <tr><td class="text-center">2</td><td>Standar Isi</td><td class="text-end fw-semibold" id="pub_Bos_Isi">Rp 0</td></tr>
+                                    <tr><td class="text-center">3</td><td>Standar Proses</td><td class="text-end fw-semibold" id="pub_Bos_Proses">Rp 0</td></tr>
+                                    <tr><td class="text-center">4</td><td>Standar Penilaian</td><td class="text-end fw-semibold" id="pub_Bos_Penilaian">Rp 0</td></tr>
+                                    <tr><td class="text-center">5</td><td>Standar Pendidik & Tendik</td><td class="text-end fw-semibold" id="pub_Bos_PTK">Rp 0</td></tr>
+                                    <tr><td class="text-center">6</td><td>Standar Sarana & Prasarana</td><td class="text-end fw-semibold" id="pub_Bos_Sarpras">Rp 0</td></tr>
+                                    <tr><td class="text-center">7</td><td>Standar Pengelolaan</td><td class="text-end fw-semibold" id="pub_Bos_Pengelolaan">Rp 0</td></tr>
+                                    <tr><td class="text-center">8</td><td>Standar Pembiayaan</td><td class="text-end fw-semibold" id="pub_Bos_Pembiayaan">Rp 0</td></tr>
+                                </tbody>
+                                <tfoot class="bg-dark text-white">
+                                    <tr><th colspan="2" class="text-end fs-5">TOTAL DANA BOS :</th><th class="text-end fs-5 text-warning" id="pub_Bos_Total">Rp 0</th></tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="aplikasi" class="py-5 bg-white">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h3 class="fw-bold text-dark border-bottom border-primary border-3 pb-2">Layanan & Aplikasi</h3>
+                <button class="btn btn-primary btn-sm admin-panel shadow-sm" data-bs-toggle="modal" data-bs-target="#appModal"><i class="fas fa-plus"></i> Tambah Aplikasi</button>
+            </div>
+            <div class="row g-4 text-center" id="appContainer"></div>
+        </div>
+    </section>
+
+    <section id="galeri" class="py-5 bg-light">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h3 class="fw-bold text-dark border-bottom border-success border-3 pb-2">Galeri Kegiatan</h3>
+                <button class="btn btn-success btn-sm admin-panel shadow-sm" data-bs-toggle="modal" data-bs-target="#galeriModal"><i class="fas fa-upload"></i> Upload Foto</button>
+            </div>
+            <div class="row g-4" id="galeriContainer"></div>
+        </div>
+    </section>
+
+    <section id="spmb" class="py-5 bg-white">
+        <div class="container">
+            <h2 class="section-title">Sistem Penerimaan Murid Baru (SPMB)</h2>
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card shadow border-0 rounded-3">
+                        <div class="card-header bg-warning text-dark text-center py-3"><h5 class="mb-0 fw-bold"><i class="fas fa-user-plus me-2"></i>Formulir Registrasi & Unggah Berkas</h5></div>
+                        <div class="card-body p-4">
+                            <form id="formSPMB">
+                                <h6 class="text-primary fw-bold mb-3 border-bottom pb-2">A. Data Calon Siswa</h6>
+                                <div class="mb-3"><label class="form-label fw-semibold">Nama Lengkap</label><input type="text" class="form-control" id="namaSiswa" required></div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3"><label class="form-label fw-semibold">NIK (Sesuai KK)</label><input type="number" class="form-control" id="nik" required></div>
+                                    <div class="col-md-6 mb-3"><label class="form-label fw-semibold">Asal Sekolah (TK/PAUD)</label><input type="text" class="form-control" id="asalSekolah" placeholder="Tulis (-) jika tidak ada"></div>
+                                </div>
+                                <div class="mb-4"><label class="form-label fw-semibold">Nomor WhatsApp Orang Tua</label><input type="number" class="form-control" id="noWa" required></div>
+                                <h6 class="text-primary fw-bold mb-3 mt-4 border-bottom pb-2">B. Lampiran Berkas (JPG/PNG/JPEG)</h6>
+                                <div class="mb-3"><label class="form-label fw-semibold">1. Foto / Scan Akta Kelahiran <span class="text-danger">*</span></label><input type="file" class="form-control bg-light" id="fileAkta" accept="image/*" required></div>
+                                <div class="mb-3"><label class="form-label fw-semibold">2. Foto / Scan Kartu Keluarga <span class="text-danger">*</span></label><input type="file" class="form-control bg-light" id="fileKk" accept="image/*" required></div>
+                                <div class="mb-4"><label class="form-label fw-semibold">3. Pas Foto Siswa <span class="text-danger">*</span></label><input type="file" class="form-control bg-light" id="fileFotoSiswa" accept="image/*" required></div>
+                                <button type="submit" class="btn btn-primary w-100 fw-bold py-3 mt-2" id="btnSubmitSPMB">Kirim Berkas Pendaftaran SPMB</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="kontak" class="py-5 bg-light border-top">
+        <div class="container">
+            <h2 class="section-title">Buku Tamu Pengunjung</h2>
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <p class="text-center text-muted mb-4">Tinggalkan pesan, saran, atau pertanyaan untuk pihak sekolah melalui form ini.</p>
+                    <form id="formKontak">
+                        <div class="mb-3"><input type="text" class="form-control bg-white" id="namaKontak" placeholder="Nama Anda" required></div>
+                        <div class="mb-3"><input type="text" class="form-control bg-white" id="kontakInfo" placeholder="Email / No WhatsApp" required></div>
+                        <div class="mb-3"><textarea class="form-control bg-white" id="pesanKontak" rows="4" placeholder="Tulis pesan atau saran..." required></textarea></div>
+                        <button type="submit" class="btn btn-outline-primary w-100 fw-bold" id="btnSubmitKontak">Kirim Pesan Masuk</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-dark text-white pt-5 pb-3">
+        <div class="container">
+            <div class="row gy-4">
+                <div class="col-md-4">
+                    <h5 class="fw-bold text-uppercase mb-3"><i class="fas fa-graduation-cap me-2 text-primary"></i><span class="footerBrand">SDN 13 DAMPELAS</span></h5>
+                    <p class="text-light opacity-75 small lh-lg">Berdedikasi untuk mencetak generasi cerdas, berakhlak mulia, dan kompetitif. Kami terus berinovasi mengintegrasikan teknologi ke dalam dunia pendidikan dasar.</p>
+                </div>
+                <div class="col-md-4">
+                    <h5 class="fw-bold mb-3">Info Kontak</h5>
+                    <ul class="list-unstyled text-light opacity-75 small lh-lg"><li class="mb-2 d-flex"><i class="fas fa-map-marker-alt mt-1 me-3 text-primary"></i> <span id="footerAlamat">Memuat alamat...</span></li></ul>
+                </div>
+                <div class="col-md-4">
+                    <h5 class="fw-bold mb-3">Media Sosial Kami</h5>
+                    <div class="d-flex gap-2">
+                        <a href="#" target="_blank" id="ytLink" class="btn btn-outline-light btn-sm rounded-circle d-none"><i class="fab fa-youtube"></i></a>
+                        <a href="#" target="_blank" id="tiktokLink" class="btn btn-outline-light btn-sm rounded-circle d-none"><i class="fab fa-tiktok"></i></a>
+                        <a href="#" target="_blank" id="instaLink" class="btn btn-outline-light btn-sm rounded-circle d-none"><i class="fab fa-instagram"></i></a>
+                        <a href="#" target="_blank" id="fbLink" class="btn btn-outline-light btn-sm rounded-circle d-none"><i class="fab fa-facebook"></i></a>
+                        <a href="#" target="_blank" id="xLink" class="btn btn-outline-light btn-sm rounded-circle d-none"><i class="fab fa-x-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="border-secondary my-4">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
+                <small class="text-light opacity-50">&copy; 2026 SDN 13. All Rights Reserved.</small>
+                <div class="mt-2 mt-md-0">
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal" id="loginGembok" title="Akses Admin" class="me-3"><i class="fas fa-lock"></i></a>
+                    <a href="#" class="admin-panel text-warning text-decoration-none" data-bs-toggle="modal" data-bs-target="#cmsSettingsModal"><i class="fas fa-cogs me-1"></i> Buka Panel Pengaturan</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <nav class="bottom-nav d-md-none">
+        <a href="#beranda" class="active"><i class="fas fa-home"></i></a>
+        <a href="#berita"><i class="fas fa-newspaper"></i></a>
+        <a href="#profil"><i class="fas fa-school"></i></a>
+        <a href="#spmb"><i class="fas fa-user-plus"></i></a>
+        <a href="#kontak"><i class="fas fa-envelope"></i></a>
+    </nav>
+
+    <div class="modal fade" id="beritaDetailModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content border-0 shadow">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title fw-bold" id="detailBeritaJudul">Judul Berita</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-0">
+                    <div id="beritaCarousel" class="carousel slide" data-bs-ride="carousel" style="display: none;">
+                        <div class="carousel-inner" id="detailBeritaSlider"></div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#beritaCarousel" data-bs-slide="prev"><span class="carousel-control-prev-icon"></span></button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#beritaCarousel" data-bs-slide="next"><span class="carousel-control-next-icon"></span></button>
+                    </div>
+                    <div class="p-4">
+                        <small class="text-primary fw-bold mb-3 d-block"><i class="far fa-calendar-alt me-2"></i><span id="detailBeritaTanggal"></span></small>
+                        <div id="detailBeritaKonten" class="text-justify" style="white-space: pre-wrap; line-height: 1.8; color: #444;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="loginModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered modal-sm"><div class="modal-content border-0 shadow"><div class="modal-header bg-danger text-white"><h5 class="modal-title"><i class="fas fa-lock me-2"></i>Admin Area</h5><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div><div class="modal-body p-4"><form id="formLogin"><div class="mb-2"><input type="text" id="username" class="form-control" placeholder="Username" required></div><div class="mb-3"><input type="password" id="password" class="form-control" placeholder="Password" required></div><button type="submit" class="btn btn-danger w-100 shadow-sm" id="btnDoLogin">Masuk Sistem</button></form></div></div></div></div>
+    
+    <div class="modal fade" id="appModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered"><div class="modal-content border-0 shadow"><div class="modal-header bg-primary text-white"><h5 class="modal-title">Tambah Aplikasi</h5><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div><div class="modal-body p-4"><form id="formAddApp"><input type="text" id="appName" class="form-control mb-2" placeholder="Nama Aplikasi" required><input type="url" id="appUrl" class="form-control mb-3" placeholder="URL (https://...)" required><input type="text" id="appIcon" class="form-control mb-3" placeholder="Icon Class (cth: fa-link)" value="fa-link" required><button type="submit" class="btn btn-primary w-100" id="btnSaveApp">Simpan Aplikasi</button></form></div></div></div></div>
+    
+    <div class="modal fade" id="galeriModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered"><div class="modal-content border-0 shadow"><div class="modal-header bg-success text-white"><h5 class="modal-title">Upload Foto Galeri</h5><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div><div class="modal-body p-4"><form id="formAddGaleri"><input type="text" id="fotoJudul" class="form-control mb-2" placeholder="Judul Foto" required><input type="file" id="fotoFile" class="form-control mb-3" accept="image/*" required><button type="submit" class="btn btn-success w-100" id="btnSaveFoto">Upload Foto</button></form></div></div></div></div>
+
+    <div class="modal fade" id="cmsSettingsModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content border-0 shadow">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title"><i class="fas fa-edit me-2"></i>Pengaturan Website Sekolah</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-0">
+                    <ul class="nav nav-pills bg-light nav-fill rounded-0" id="cmsTab" role="tablist">
+                        <li class="nav-item"><button class="nav-link active rounded-0" data-bs-toggle="pill" data-bs-target="#tab-berita" type="button"><i class="fas fa-newspaper me-1"></i>Berita</button></li>
+                        <li class="nav-item"><button class="nav-link rounded-0" data-bs-toggle="pill" data-bs-target="#tab-ks" type="button"><i class="fas fa-user me-1"></i>Profil KS</button></li>
+                        <li class="nav-item"><button class="nav-link rounded-0" data-bs-toggle="pill" data-bs-target="#tab-stat" type="button"><i class="fas fa-chart-bar me-1"></i>Statistik Dinamis</button></li>
+                        <li class="nav-item"><button class="nav-link rounded-0" data-bs-toggle="pill" data-bs-target="#tab-bos" type="button"><i class="fas fa-money-bill-wave me-1"></i>BOS</button></li>
+                        <li class="nav-item"><button class="nav-link rounded-0" data-bs-toggle="pill" data-bs-target="#tab-config" type="button"><i class="fas fa-cogs me-1"></i>Lainnya</button></li>
+                    </ul>
+                    <div class="tab-content p-4" id="cmsTabContent">
+                        
+                        <div class="tab-pane fade show active" id="tab-berita">
+                            <form id="formBerita">
+                                <div class="mb-3"><label class="form-label fw-semibold">Judul Berita</label><input type="text" class="form-control" id="beritaJudul" required></div>
+                                <div class="mb-3"><label class="form-label fw-semibold">Isi Berita</label><textarea class="form-control" id="beritaKonten" rows="5" required></textarea></div>
+                                <div class="mb-3">
+                                    <label class="form-label fw-semibold">Pilih Foto Dokumentasi (Bisa lebih dari 1)</label>
+                                    <input type="file" class="form-control bg-white" id="beritaFoto" accept="image/*" multiple required>
+                                </div>
+                                <button type="submit" class="btn btn-danger w-100 fw-bold" id="btnSubmitBerita"><i class="fas fa-paper-plane me-1"></i>Publikasikan Berita & Slider Foto</button>
+                            </form>
+                        </div>
+
+                        <div class="tab-pane fade" id="tab-ks">
+                            <form id="formKSConfig">
+                                <div class="mb-3"><label class="form-label fw-semibold">Nama Kepala Sekolah</label><input type="text" class="form-control" id="ksNamaIn"></div>
+                                <div class="mb-3"><label class="form-label fw-semibold">Teks Sambutan</label><textarea class="form-control" id="ksSambutanIn" rows="4"></textarea></div>
+                                <button type="submit" class="btn btn-danger w-100 fw-bold" id="btnSubmitKSConfig">Simpan Profil KS</button>
+                            </form>
+                        </div>
+                        
+                        <div class="tab-pane fade" id="tab-stat">
+                            <div class="alert alert-info py-2"><small><i class="fas fa-info-circle me-1"></i>Perbarui angka di bawah lalu klik <b>Simpan Perubahan</b>. Untuk menghapus, klik ikon tempat sampah.</small></div>
+                            <form id="formUpdateStat">
+                                <div class="row g-2 mb-3" id="adminStatContainer"></div>
+                                <button type="submit" class="btn btn-success w-100 fw-bold mb-4" id="btnUpdateStat">Simpan Perubahan Angka Statistik</button>
+                            </form>
+                            <hr class="my-4">
+                            <h6 class="fw-bold text-primary mb-3">Tambah Kartu Statistik Baru</h6>
+                            <form id="formTambahStat">
+                                <div class="row g-2">
+                                    <div class="col-md-5"><input type="text" id="newStatNama" class="form-control" placeholder="Nama (Cth: Ekstrakurikuler)" required></div>
+                                    <div class="col-md-3"><input type="text" id="newStatNilai" class="form-control" placeholder="Nilai (Cth: 5)" required></div>
+                                    <div class="col-md-2"><input type="text" id="newStatIcon" class="form-control" placeholder="Ikon (Cth: fa-star)" value="fa-star" required></div>
+                                    <div class="col-md-2"><button type="submit" class="btn btn-primary w-100 fw-bold" id="btnTambahStat">Tambah</button></div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="tab-pane fade" id="tab-bos">
+                            <form id="formBosConfig">
+                                <div class="row g-2 mb-3">
+                                    <div class="col-md-6"><label class="form-label small mb-1">1. SKL</label><input type="number" class="form-control bos-input" id="bosSKLIn" data-key="Bos_SKL"></div>
+                                    <div class="col-md-6"><label class="form-label small mb-1">2. Standar Isi</label><input type="number" class="form-control bos-input" id="bosIsiIn" data-key="Bos_Isi"></div>
+                                    <div class="col-md-6"><label class="form-label small mb-1">3. Standar Proses</label><input type="number" class="form-control bos-input" id="bosProsesIn" data-key="Bos_Proses"></div>
+                                    <div class="col-md-6"><label class="form-label small mb-1">4. Standar Penilaian</label><input type="number" class="form-control bos-input" id="bosPenilaianIn" data-key="Bos_Penilaian"></div>
+                                    <div class="col-md-6"><label class="form-label small mb-1">5. Pendidik & Tendik</label><input type="number" class="form-control bos-input" id="bosPTKIn" data-key="Bos_PTK"></div>
+                                    <div class="col-md-6"><label class="form-label small mb-1">6. Sarpras</label><input type="number" class="form-control bos-input" id="bosSarprasIn" data-key="Bos_Sarpras"></div>
+                                    <div class="col-md-6"><label class="form-label small mb-1">7. Pengelolaan</label><input type="number" class="form-control bos-input" id="bosPengelolaanIn" data-key="Bos_Pengelolaan"></div>
+                                    <div class="col-md-6"><label class="form-label small mb-1">8. Pembiayaan</label><input type="number" class="form-control bos-input" id="bosPembiayaanIn" data-key="Bos_Pembiayaan"></div>
+                                </div>
+                                <div class="bg-dark text-white p-2 rounded mb-3 text-end fw-bold">TOTAL: <span id="bosTotalPreview" class="text-warning">Rp 0</span></div>
+                                <button type="submit" class="btn btn-danger w-100 fw-bold" id="btnSubmitBosConfig">Simpan Data Dana BOS</button>
+                            </form>
+                        </div>
+
+                        <div class="tab-pane fade" id="tab-config">
+                            <form id="formConfig">
+                                <div class="mb-3"><label class="form-label fw-semibold">Judul Sekolah</label><input type="text" class="form-control" id="judulIn"></div>
+                                <div class="mb-3"><label class="form-label fw-semibold">Subjudul Hero</label><input type="text" class="form-control" id="subjudulIn"></div>
+                                <div class="mb-3"><label class="form-label fw-semibold">Alamat Sekolah Lengkap</label><input type="text" class="form-control" id="alamatIn"></div>
+                                <div class="row g-2 mb-3">
+                                    <div class="col-6"><label class="form-label fw-semibold"><i class="fab fa-youtube text-danger me-1"></i>URL YouTube</label><input type="text" class="form-control" id="ytIn"></div>
+                                    <div class="col-6"><label class="form-label fw-semibold"><i class="fab fa-tiktok text-dark me-1"></i>URL TikTok</label><input type="text" class="form-control" id="tiktokIn"></div>
+                                    <div class="col-6"><label class="form-label fw-semibold"><i class="fab fa-instagram text-danger me-1"></i>URL Instagram</label><input type="text" class="form-control" id="instaIn"></div>
+                                    <div class="col-6"><label class="form-label fw-semibold"><i class="fab fa-facebook text-primary me-1"></i>URL Facebook</label><input type="text" class="form-control" id="fbIn"></div>
+                                    <div class="col-6"><label class="form-label fw-semibold"><i class="fab fa-x-twitter text-dark me-1"></i>URL X (Twitter)</label><input type="text" class="form-control" id="xIn"></div>
+                                </div>
+                                <button type="submit" class="btn btn-danger w-100 fw-bold" id="btnSubmitConfig">Simpan Konfigurasi Umum</button>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // ==============================================================
+        // GANTI URL DI BAWAH INI DENGAN URL DEPLOY GOOGLE APPS SCRIPT-MU
+        const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbznlbbgnrnnPvPWTKdd_hv2O5_FIQ-TSVyMnsaOkPIAJ9J-xumQbE_1e-dJfQ5OPpew-w/exec";
+        // ==============================================================
+
+        let globalBeritaData = []; 
+
+        window.onload = () => { 
+            if(sessionStorage.getItem('isAdmin') === 'true') toggleAdminState(true); 
+            loadWebsiteData(); 
+        };
+
+        // --- Helper Functions ---
+        function fixGoogleDriveLink(url) { return (url && url.includes("drive.google.com/uc")) ? `https://drive.google.com/thumbnail?id=${url.split("id=")[1]}&sz=w1600` : url; }
+        function formatRupiah(angka) { return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(angka); }
+        function formatDateID(dateString) {
+            try { const d = new Date(dateString); if(!isNaN(d)) return d.toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'}); } catch(e) {}
+            return dateString;
+        }
+        function getBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result.split(',')[1]); // Hanya ambil konten base64, buang header
+                reader.onerror = error => reject(error);
+            });
+        }
+        function toggleLoadingBtn(btnId, isLoading, originalText = "") {
+            const btn = document.getElementById(btnId);
+            if(isLoading) { btn.disabled = true; btn.innerHTML = `<span class="spinner-border spinner-border-sm me-2"></span>Memproses...`; } 
+            else { btn.disabled = false; btn.innerHTML = originalText; }
+        }
+
+        // --- Load Main Data ---
+        async function loadWebsiteData() {
+            try {
+                const response = await fetch(GAS_WEB_APP_URL, { method: 'POST', body: JSON.stringify({ action: "get_data" }) });
+                const data = await response.json();
+                if(data.status !== "success") return;
+
+                const s = data.settings;
+                globalBeritaData = data.berita; 
+                
+                // Judul & Hero
+                document.getElementById('navBrand').textContent = s.Judul_Hero || "SDN 13 DAMPELAS";
+                document.querySelector('.footerBrand').textContent = s.Judul_Hero || "SDN 13 DAMPELAS";
+                document.getElementById('heroJudul').textContent = s.Judul_Hero || "SDN 13 DAMPELAS";
+                document.getElementById('heroSubjudul').textContent = s.Subjudul_Hero || "Mewujudkan Sekolah Dasar Berstandar Modern, Berakhlak Mulia, dan Unggul.";
+                
+                // Isi Form CMS Config
+                document.getElementById('judulIn').value = s.Judul_Hero || "";
+                document.getElementById('subjudulIn').value = s.Subjudul_Hero || "";
+                document.getElementById('alamatIn').value = s.Alamat_Sekolah || "";
+                document.getElementById('ytIn').value = s.URL_YouTube || "";
+                document.getElementById('tiktokIn').value = s.URL_TikTok || "";
+                document.getElementById('instaIn').value = s.URL_Instagram || "";
+                document.getElementById('fbIn').value = s.URL_Facebook || "";
+                document.getElementById('xIn').value = s.URL_X || "";
+                document.getElementById('ksNamaIn').value = s.Nama_Kepala_Sekolah || "";
+                document.getElementById('ksSambutanIn').value = s.Sambutan_Kepala_Sekolah || "";
+
+                // Slider Hero
+                const heroSlider = document.getElementById('heroSlider');
+                heroSlider.innerHTML = '';
+                if (data.heroBgs && data.heroBgs.length > 0) {
+                    const safeHeroBgs = data.heroBgs.map(g => fixGoogleDriveLink(g[2]));
+                    const slides = safeHeroBgs.map((bg, index) => {
+                        const slide = document.createElement('div'); slide.className = 'hero-slide'; slide.style.backgroundImage = `url('${bg}')`;
+                        slide.style.transform = index === 0 ? 'translateX(0)' : 'translateX(-100%)';
+                        heroSlider.appendChild(slide); return slide;
+                    });
+                    if (slides.length > 1) {
+                        let currentIndex = 0;
+                        setInterval(() => {
+                            let nextIndex = (currentIndex + 1) % slides.length;
+                            slides[nextIndex].style.transition = 'none'; slides[nextIndex].style.transform = 'translateX(-100%)';
+                            void slides[nextIndex].offsetWidth;
+                            slides[nextIndex].style.transition = 'transform 1.5s ease-in-out'; slides[currentIndex].style.transition = 'transform 1.5s ease-in-out';
+                            slides[nextIndex].style.transform = 'translateX(0)'; slides[currentIndex].style.transform = 'translateX(100%)';
+                            currentIndex = nextIndex;
+                        }, 6000); 
+                    }
+                } else {
+                    const slide = document.createElement('div'); slide.className = 'hero-slide'; slide.style.backgroundImage = `url('https://source.unsplash.com/1600x900/?school,building')`; slide.style.transform = 'translateX(0)'; heroSlider.appendChild(slide);
+                }
+
+                // Berita
+                document.getElementById('beritaContainer').innerHTML = data.berita && data.berita.length > 0 ? data.berita.map(b => {
+                    const thumbnail = b[4] ? fixGoogleDriveLink(b[4].split("||")[0]) : 'https://source.unsplash.com/600x400/?school,news';
+                    return `<div class="col-md-4"><div class="card news-card shadow-sm h-100" onclick="showBeritaDetail('${b[0]}')"><img src="${thumbnail}" class="card-img-top" style="height: 200px; object-fit: cover;"><div class="card-body"><small class="text-primary fw-bold"><i class="far fa-calendar-alt me-1"></i>${formatDateID(b[1])}</small><h5 class="card-title fw-bold mt-2">${b[2]}</h5><p class="card-text text-muted small news-content-preview">${b[3]}</p><button class="btn btn-sm btn-outline-danger admin-panel mt-2" onclick="event.stopPropagation(); hapusBerita('${b[0]}')"><i class="fas fa-trash me-1"></i>Hapus Berita</button></div></div></div>`;
+                }).join('') : '<p class="text-muted text-center w-100">Belum ada berita.</p>';
+                
+                // Profil KS
+                if(s.Foto_Kepala_Sekolah) document.getElementById('ksFoto').setAttribute('src', fixGoogleDriveLink(s.Foto_Kepala_Sekolah));
+                document.getElementById('ksNama').textContent = s.Nama_Kepala_Sekolah || "-"; document.getElementById('ksSambutan').textContent = s.Sambutan_Kepala_Sekolah || "-";
+                
+                // Statistik Dinamis
+                if (data.statistik && data.statistik.length > 0) {
+                    const colors = ['stat-color-0', 'stat-color-1', 'stat-color-2', 'stat-color-3', 'stat-color-4', 'stat-color-5', 'stat-color-6', 'stat-color-7'];
+                    document.getElementById('statContainer').innerHTML = data.statistik.map((st, index) => {
+                        const colorClass = index === 0 ? 'stat-color-0' : colors[index % colors.length];
+                        return `<div class="col-6 col-md-3 col-lg-2"><div class="stat-card ${colorClass}"><i class="fas ${st[3]}"></i><h3>${st[2]}</h3><small>${st[1]}</small></div></div>`;
+                    }).join('');
+
+                    document.getElementById('adminStatContainer').innerHTML = data.statistik.map(st => `
+                        <div class="col-md-3 col-6 mb-3">
+                            <label class="form-label small mb-1">${st[1]}</label>
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control stat-val-input" data-id="${st[0]}" value="${st[2]}">
+                                <button class="btn btn-outline-danger" type="button" onclick="hapusStat('${st[0]}')"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    document.getElementById('statContainer').innerHTML = '<p class="text-muted text-center w-100">Belum ada data statistik.</p>';
+                    document.getElementById('adminStatContainer').innerHTML = '';
+                }
+
+                // BOS - DENGAN NULL CHECKER TAMBAHAN AGAR SCRIPT TIDAK CRASH
+                let totalBos = 0;
+                ['SKL', 'Isi', 'Proses', 'Penilaian', 'PTK', 'Sarpras', 'Pengelolaan', 'Pembiayaan'].forEach(k => {
+                    let val = parseInt(s['Bos_'+k]) || 0; 
+                    totalBos += val; 
+                    
+                    const pubEl = document.getElementById('pub_Bos_'+k);
+                    if(pubEl) pubEl.textContent = formatRupiah(val);
+                    
+                    const adminInp = document.getElementById('bos'+k+'In');
+                    if(adminInp) adminInp.value = val;
+                });
+                const pubTotalEl = document.getElementById('pub_Bos_Total');
+                if(pubTotalEl) pubTotalEl.textContent = formatRupiah(totalBos);
+                
+                const prevTotalEl = document.getElementById('bosTotalPreview');
+                if(prevTotalEl) prevTotalEl.textContent = formatRupiah(totalBos);
+
+                // Footer Info
+                document.getElementById('footerAlamat').textContent = s.Alamat_Sekolah || "-";
+                [['ytLink', s.URL_YouTube], ['tiktokLink', s.URL_TikTok], ['instaLink', s.URL_Instagram], ['fbLink', s.URL_Facebook], ['xLink', s.URL_X]].forEach(link => { 
+                    const el = document.getElementById(link[0]); 
+                    if(el) {
+                        if(link[1]) { el.setAttribute('href', link[1]); el.classList.remove('d-none'); } 
+                        else { el.classList.add('d-none'); }
+                    }
+                });
+
+                // Aplikasi & Galeri
+                document.getElementById('appContainer').innerHTML = data.apps.map(app => `<div class="col-6 col-md-3"><a href="${app[2]}" target="_blank" class="text-decoration-none text-dark"><div class="card app-card shadow-sm h-100 py-3"><div class="card-body"><i class="fas ${app[3]} fa-2x text-primary mb-3"></i><h6 class="card-title fw-bold mb-0">${app[1]}</h6></div></div></a></div>`).join('') || '<p class="text-muted w-100">Belum ada aplikasi.</p>';
+                document.getElementById('galeriContainer').innerHTML = data.galeri.map(g => `<div class="col-sm-6 col-md-4"><div class="card shadow-sm border-0 h-100"><img src="${fixGoogleDriveLink(g[2])}" class="card-img-top" style="height: 200px; object-fit: cover;"><div class="card-body text-center"><p class="card-text fw-semibold mb-2">${g[1]}</p><button class="btn btn-sm btn-outline-danger admin-panel mt-2" onclick="hapusFoto('${g[0]}')"><i class="fas fa-trash me-1"></i>Hapus Foto</button></div></div></div>`).join('') || '<p class="text-muted text-center w-100">Belum ada foto.</p>';
+
+            } catch (err) { console.error("Gagal memuat data", err); }
+        }
+
+        // --- Detail Berita ---
+        function showBeritaDetail(id) {
+            const b = globalBeritaData.find(item => item[0] === id);
+            if(!b) return;
+            document.getElementById('detailBeritaJudul').textContent = b[2];
+            document.getElementById('detailBeritaTanggal').textContent = formatDateID(b[1]);
+            document.getElementById('detailBeritaKonten').textContent = b[3]; 
+
+            const urls = b[4] ? b[4].split("||") : [];
+            const sliderInner = document.getElementById('detailBeritaSlider');
+            const carousel = document.getElementById('beritaCarousel');
+            if(urls.length > 0) {
+                sliderInner.innerHTML = urls.map((url, idx) => `<div class="carousel-item ${idx === 0 ? 'active' : ''}"><img src="${fixGoogleDriveLink(url)}" class="d-block w-100 rounded" style="height: 400px; object-fit: cover;"></div>`).join('');
+                carousel.style.display = 'block';
+                document.querySelectorAll('#beritaCarousel .carousel-control-prev, #beritaCarousel .carousel-control-next').forEach(c => c.style.display = urls.length > 1 ? 'flex' : 'none');
+            } else { carousel.style.display = 'none'; }
+            new bootstrap.Modal(document.getElementById('beritaDetailModal')).show();
+        }
+
+        // --- ADMIN LOGIN & LOGOUT ---
+        document.getElementById('formLogin').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btnId = 'btnDoLogin'; originalText = "Masuk Sistem";
+            toggleLoadingBtn(btnId, true);
+            try {
+                const user = document.getElementById('username').value;
+                const pass = document.getElementById('password').value;
+                const res = await fetch(GAS_WEB_APP_URL, { method: 'POST', body: JSON.stringify({ action: "login", user, pass }) }).then(r=>r.json());
+                if (res.status === "success") {
+                    sessionStorage.setItem('isAdmin', 'true'); toggleAdminState(true);
+                    bootstrap.Modal.getInstance(document.getElementById('loginModal')).hide();
+                    document.getElementById('formLogin').reset();
+                } else { alert("Username atau Password salah!"); }
+            } catch(err) { alert("Error: " + err); }
+            toggleLoadingBtn(btnId, false, originalText);
+        });
+
+        function logout() { sessionStorage.removeItem('isAdmin'); toggleAdminState(false); }
+        function toggleAdminState(isAdmin) { isAdmin ? document.body.classList.add('is-admin') : document.body.classList.remove('is-admin'); }
+
+        // --- UPLOADS DIRECT (Hero & KS) ---
+        async function handleBgUpload(input) {
+            if(!input.files[0]) return;
+            document.getElementById('lblUploadHero').innerHTML = `<span class="spinner-border spinner-border-sm me-1"></span>Mengunggah...`;
+            try {
+                const fileData = await getBase64(input.files[0]);
+                await fetch(GAS_WEB_APP_URL, { method: 'POST', body: JSON.stringify({ action: "update_bg", fileData, nama: "Hero_Background" }) });
+                loadWebsiteData();
+            } catch(e) { alert("Upload gagal: "+e); }
+            document.getElementById('lblUploadHero').innerHTML = `<i class="fas fa-camera me-1"></i>Ganti Gambar Background Hero <input type="file" accept="image/*" class="d-none" onchange="handleBgUpload(this)">`;
+        }
+
+        async function handleKsUploadDirect(input) {
+            if(!input.files[0]) return;
+            document.getElementById('lblUploadKs').innerHTML = `<span class="spinner-border spinner-border-sm me-1"></span>Mengunggah...`;
+            try {
+                const fileData = await getBase64(input.files[0]);
+                await fetch(GAS_WEB_APP_URL, { method: 'POST', body: JSON.stringify({ action: "upload_ks", fileData }) });
+                loadWebsiteData();
+            } catch(e) { alert("Upload gagal: "+e); }
+            document.getElementById('lblUploadKs').innerHTML = `<i class="fas fa-camera me-1"></i>Ganti Foto KS <input type="file" accept="image/*" class="d-none" onchange="handleKsUploadDirect(this)">`;
+        }
+
+        // --- SUBMIT FORMS CMS ---
+        
+        // 1. Tambah Berita
+        document.getElementById('formBerita').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btnId = 'btnSubmitBerita'; const oriText = `<i class="fas fa-paper-plane me-1"></i>Publikasikan Berita & Slider Foto`;
+            toggleLoadingBtn(btnId, true);
+            try {
+                const files = document.getElementById('beritaFoto').files;
+                let fileDataArray = [];
+                for(let i=0; i<files.length; i++) { fileDataArray.push(await getBase64(files[i])); }
+                const payload = { action: "tambah_berita", judul: document.getElementById('beritaJudul').value, konten: document.getElementById('beritaKonten').value, fileDataArray };
+                await fetch(GAS_WEB_APP_URL, { method: 'POST', body: JSON.stringify(payload) });
+                alert("Berita berhasil dipublikasi!");
+                document.getElementById('formBerita').reset(); loadWebsiteData();
+            } catch(err) { alert("Gagal: " + err); }
+            toggleLoadingBtn(btnId, false, oriText);
+        });
+
+        // Hapus Berita
+        async function hapusBerita(id) {
+            if(!confirm("Yakin hapus berita ini?")) return;
+            await fetch(GAS_WEB_APP_URL, { method: 'POST', body: JSON.stringify({ action: "hapus_berita", id }) });
+            loadWebsiteData();
+        }
+
+        // 2. Profil KS Text
+        document.getElementById('formKSConfig').addEventListener('submit', async (e) => {
+            e.preventDefault(); toggleLoadingBtn('btnSubmitKSConfig', true);
+            await Promise.all([
+                fetch(GAS_WEB_APP_URL, { method: 'POST', body: JSON.stringify({ action: "update_config", key: "Nama_Kepala_Sekolah", value: document.getElementById('ksNamaIn').value }) }),
+                fetch(GAS_WEB_APP_URL, { method: 'POST', body: JSON.stringify({ action: "update_config", key: "Sambutan_Kepala_Sekolah", value: document.getElementById('ksSambutanIn').value }) })
+            ]);
+            alert("Profil KS disimpan!"); loadWebsiteData(); toggleLoadingBtn('btnSubmitKSConfig', false, "Simpan Profil KS");
+        });
+
+        // 3. Update Nilai Statistik
+        document.getElementById('formUpdateStat').addEventListener('submit', async (e) => {
+            e.preventDefault(); toggleLoadingBtn('btnUpdateStat', true);
+            const inputs = document.querySelectorAll('.stat-val-input');
+            const data = Array.from(inputs).map(inp => ({ id: inp.dataset.id, nilai: inp.value }));
+            await fetch(GAS_WEB_APP_URL, { method: 'POST', body: JSON.stringify({ action: "update_stat_values", data }) });
+            alert("Nilai statistik disimpan!"); loadWebsiteData(); toggleLoadingBtn('btnUpdateStat', false, "Simpan Perubahan Angka Statistik");
+        });
+
+        // Tambah & Hapus Statistik
+        document.getElementById('formTambahStat').addEventListener('submit', async (e) => {
+            e.preventDefault(); toggleLoadingBtn('btnTambahStat', true);
+            const payload = { action: "tambah_stat", nama: document.getElementById('newStatNama').value, nilai: document.getElementById('newStatNilai').value, icon: document.getElementById('newStatIcon').value };
+            await fetch(GAS_WEB_APP_URL, { method: 'POST', body: JSON.stringify(payload) });
+            document.getElementById('formTambahStat').reset(); loadWebsiteData(); toggleLoadingBtn('btnTambahStat', false, "Tambah");
+        });
+        async function hapusStat(id) {
+            if(!confirm("Hapus statistik ini?")) return;
+            await fetch(GAS_WEB_APP_URL, { method: 'POST', body: JSON.stringify({ action: "hapus_stat", id }) }); loadWebsiteData();
+        }
+
+        // 4. Update BOS
+        document.querySelectorAll('.bos-input').forEach(input => {
+            input.addEventListener('input', function() {
+                let total = 0; document.querySelectorAll('.bos-input').forEach(inp => total += (parseInt(inp.value) || 0));
+                const previewTotal = document.getElementById('bosTotalPreview');
+                if(previewTotal) previewTotal.textContent = formatRupiah(total);
+            });
+        });
+        
+        document.getElementById('formBosConfig').addEventListener('submit', async (e) => {
+            e.preventDefault(); toggleLoadingBtn('btnSubmitBosConfig', true);
+            const inputs = document.querySelectorAll('.bos-input');
+            const promises = Array.from(inputs).map(inp => fetch(GAS_WEB_APP_URL, { method: 'POST', body: JSON.stringify({ action: "update_config", key: inp.dataset.key, value: inp.value }) }));
+            await Promise.all(promises);
+            alert("Dana BOS disimpan!"); loadWebsiteData(); toggleLoadingBtn('btnSubmitBosConfig', false, "Simpan Data Dana BOS");
+        });
+
+        // 5. Update Config (Judul, Medsos)
+        document.getElementById('formConfig').addEventListener('submit', async (e) => {
+            e.preventDefault(); toggleLoadingBtn('btnSubmitConfig', true);
+            const updates = [
+                {k: "Judul_Hero", v: document.getElementById('judulIn').value}, {k: "Subjudul_Hero", v: document.getElementById('subjudulIn').value},
+                {k: "Alamat_Sekolah", v: document.getElementById('alamatIn').value}, {k: "URL_YouTube", v: document.getElementById('ytIn').value},
+                {k: "URL_TikTok", v: document.getElementById('tiktokIn').value}, {k: "URL_Instagram", v: document.getElementById('instaIn').value},
+                {k: "URL_Facebook", v: document.getElementById('fbIn').value}, {k: "URL_X", v: document.getElementById('xIn').value}
+            ];
+            await Promise.all(updates.map(u => fetch(GAS_WEB_APP_URL, { method: 'POST', body: JSON.stringify({ action: "update_config", key: u.k, value: u.v }) })));
+            alert("Konfigurasi Umum disimpan!"); loadWebsiteData(); toggleLoadingBtn('btnSubmitConfig', false, "Simpan Konfigurasi Umum");
+        });
+
+        // 6. Galeri Upload & Hapus
+        document.getElementById('formAddGaleri').addEventListener('submit', async (e) => {
+            e.preventDefault(); toggleLoadingBtn('btnSaveFoto', true);
+            try {
+                const fileData = await getBase64(document.getElementById('fotoFile').files[0]);
+                await fetch(GAS_WEB_APP_URL, { method: 'POST', body: JSON.stringify({ action: "upload_galeri", nama: document.getElementById('fotoJudul').value, fileData }) });
+                document.getElementById('formAddGaleri').reset(); bootstrap.Modal.getInstance(document.getElementById('galeriModal')).hide(); loadWebsiteData();
+            } catch(err) { alert("Error: "+err); }
+            toggleLoadingBtn('btnSaveFoto', false, "Upload Foto");
+        });
+        async function hapusFoto(id) {
+            if(!confirm("Hapus foto ini?")) return;
+            await fetch(GAS_WEB_APP_URL, { method: 'POST', body: JSON.stringify({ action: "hapus_galeri", id }) }); loadWebsiteData();
+        }
+
+        // 7. Aplikasi
+        document.getElementById('formAddApp').addEventListener('submit', async (e) => {
+            e.preventDefault(); toggleLoadingBtn('btnSaveApp', true);
+            const payload = { action: "tambah_app", nama: document.getElementById('appName').value, url: document.getElementById('appUrl').value, icon: document.getElementById('appIcon').value };
+            await fetch(GAS_WEB_APP_URL, { method: 'POST', body: JSON.stringify(payload) });
+            document.getElementById('formAddApp').reset(); bootstrap.Modal.getInstance(document.getElementById('appModal')).hide(); loadWebsiteData();
+            toggleLoadingBtn('btnSaveApp', false, "Simpan Aplikasi");
+        });
+
+        // 8. SPMB / PPDB
+        document.getElementById('formSPMB').addEventListener('submit', async (e) => {
+            e.preventDefault(); toggleLoadingBtn('btnSubmitSPMB', true);
+            try {
+                const akta = await getBase64(document.getElementById('fileAkta').files[0]);
+                const kk = await getBase64(document.getElementById('fileKk').files[0]);
+                const foto = await getBase64(document.getElementById('fileFotoSiswa').files[0]);
+                
+                const payload = {
+                    action: "spmb", namaSiswa: document.getElementById('namaSiswa').value,
+                    nik: document.getElementById('nik').value, asalSekolah: document.getElementById('asalSekolah').value,
+                    noWa: document.getElementById('noWa').value, akta, kk, foto
+                };
+                
+                const res = await fetch(GAS_WEB_APP_URL, { method: 'POST', body: JSON.stringify(payload) }).then(r=>r.json());
+                alert("Berhasil! " + res.message); document.getElementById('formSPMB').reset();
+            } catch(err) { alert("Gagal mengirim data. Pastikan file tidak terlalu besar."); console.log(err); }
+            toggleLoadingBtn('btnSubmitSPMB', false, "Kirim Berkas Pendaftaran SPMB");
+        });
+
+        // 9. Buku Tamu (Kontak)
+        document.getElementById('formKontak').addEventListener('submit', async (e) => {
+            e.preventDefault(); toggleLoadingBtn('btnSubmitKontak', true);
+            const payload = { action: "kontak", nama: document.getElementById('namaKontak').value, kontak: document.getElementById('kontakInfo').value, pesan: document.getElementById('pesanKontak').value };
+            await fetch(GAS_WEB_APP_URL, { method: 'POST', body: JSON.stringify(payload) });
+            alert("Pesan berhasil dikirim!"); document.getElementById('formKontak').reset();
+            toggleLoadingBtn('btnSubmitKontak', false, "Kirim Pesan Masuk");
+        });
+
+    </script>
+</body>
+</html>
